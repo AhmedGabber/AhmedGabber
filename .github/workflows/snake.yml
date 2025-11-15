@@ -2,8 +2,8 @@ name: GitHub Profile Snake Animation
 
 on:
   schedule:
-    - cron: '*/12 * * * *'  # كل 12 ساعة مثلاً
-  workflow_dispatch:
+    - cron: '*/12 * * * *'  # كل 12 ساعة (تقدر تغيّر)
+  workflow_dispatch:       # لتشغيله يدويًا من Actions
 
 jobs:
   build:
@@ -13,15 +13,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate Snake SVG
-        uses: Platane/snk@v3   # مبدّل هنا
+        uses: Platane/snk@v3
         with:
-          github_user_name: AhmedGabber  # اسم مستخدم GitHub بتاعك
+          github_user_name: AhmedGabber   # غيره لاسم المستخدم بتاعك على GitHub
           outputs: |
-            snake.svg?color_snake=00FF00
+            snake.svg?color_snake=00FF00  # اللون الأخضر للسنيك
+
       - name: Commit Snake
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add snake.svg
           git commit -m "Update Snake animation" || echo "No changes to commit"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
