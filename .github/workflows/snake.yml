@@ -2,8 +2,8 @@ name: GitHub Profile Snake Animation
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # every 5 minutes
-  workflow_dispatch:      # ممكن تشغله يدويًا
+    - cron: '*/12 * * * *'  # كل 12 ساعة مثلاً
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,14 +13,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate Snake SVG
-        uses: maurodesouza/github-profile-snake-animation@main
+        uses: Platane/snk@v3   # مبدّل هنا
         with:
-          username: AhmedGabber   # غيره لاسم مستخدم GitHub بتاعك
-          color: 00FF00           # لون السنيك
-          bg_color: 00000000      # شفافية الخلفية
-          size: 80                # حجم الشبكة
-          speed: 100              # سرعة الحركة
-
+          github_user_name: AhmedGabber  # اسم مستخدم GitHub بتاعك
+          outputs: |
+            snake.svg?color_snake=00FF00
       - name: Commit Snake
         run: |
           git config --global user.name "github-actions[bot]"
