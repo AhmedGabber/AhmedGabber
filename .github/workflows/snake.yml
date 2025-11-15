@@ -1,0 +1,30 @@
+name: GitHub Profile Snake Animation
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # every 5 minutes
+  workflow_dispatch:      # ممكن تشغله يدويًا
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Generate Snake SVG
+        uses: maurodesouza/github-profile-snake-animation@main
+        with:
+          username: AhmedGabber   # غيره لاسم مستخدم GitHub بتاعك
+          color: 00FF00           # لون السنيك
+          bg_color: 00000000      # شفافية الخلفية
+          size: 80                # حجم الشبكة
+          speed: 100              # سرعة الحركة
+
+      - name: Commit Snake
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add snake.svg
+          git commit -m "Update Snake animation" || echo "No changes to commit"
+          git push
